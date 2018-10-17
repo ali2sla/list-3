@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.SplitPane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.sla.Controller">
+   <children>
+      <Label fx:id="topLabel" layoutX="51.0" layoutY="58.0" prefHeight="46.0" prefWidth="507.0" text="Nothing typed yet!" />
+      <TextField fx:id="topTextField" layoutX="51.0" layoutY="111.0" onAction="#topTextFieldClear" onKeyTyped="#topTextFieldUpdated" prefHeight="27.0" prefWidth="507.0" promptText="Type here to update text above..." />
+      <ListView fx:id="sideListView" layoutX="51.0" layoutY="151.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="bottomTextField" layoutX="274.0" layoutY="238.0" onAction="#bottomTextFieldReady" prefHeight="27.0" prefWidth="284.0" promptText="Type here to add to list on left..." />
+      <ImageView fitHeight="46.0" fitWidth="103.0" layoutX="467.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Greenie.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
