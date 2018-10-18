@@ -37,16 +37,9 @@ public class Controller {
     void save() {
         System.out.println("Controller save");
 
-        // Update the model with final text typed in View
-        model.setTopLabelText(topLabel.getText());
-        model.setTopTextFieldText(topTextField.getText());
-        model.setBottomTextFieldText(bottomTextField.getText());
-        int length = sideListView.getItems().size();
-        model.getSideListViewTexts().clear();
-        for (int i = 0; i < length; i++) {
-            model.addToSideListViewTexts(sideListView.getItems().get(i).getText());
-        }
-
+        // push the latest GUI text into the model
+        model.setAllData(topLabel.getText(), topTextField.getText(),
+                         bottomTextField.getText(), sideListView.getItems());
         model.save();
     }
 

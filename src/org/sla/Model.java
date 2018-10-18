@@ -2,6 +2,8 @@ package org.sla;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.Label;
 
 // the Model contains all of the View's text so that it can be read and written to a file
 public class Model {
@@ -13,7 +15,6 @@ public class Model {
 
     // Create a model that is generic (did NOT get restored from saved data)
     Model() {
-        System.out.println("Model()");
         topLabelText = "";
         topTextFieldText = "";
         bottomTextFieldText = "";
@@ -21,18 +22,21 @@ public class Model {
 
         // Try restoring saved text from file
         try {
+            // Open file to read saved text
             File savedText = new File(getClass().getResource("SavedText.txt").toURI());
             if (savedText.exists()) {
                 BufferedReader input = new BufferedReader(new FileReader(savedText));
+
                 topLabelText = input.readLine();
                 topTextFieldText = input.readLine();
                 bottomTextFieldText = input.readLine();
-                sideListViewTexts = new ArrayList();
                 String newSideListText = input.readLine();
                 while (newSideListText != null) {
                     sideListViewTexts.add(newSideListText);
                     newSideListText = input.readLine();
                 }
+
+                // Close file
                 input.close();
             }
         } catch (Exception e) {
@@ -80,9 +84,7 @@ public class Model {
             writer.close();
 
         } catch (Exception e) {
-
-            System.out.println("Model writing failed!!!");
-            e.printStackTrace();
+            System.out.println("Model.save() failed!!!");
         }
 
     }
@@ -91,32 +93,30 @@ public class Model {
     String getTopLabelText() {
         return topLabelText;
     }
-    void setTopLabelText(String updatedText) {
-        topLabelText = updatedText;
-    }
 
     String getTopTextFieldText() {
         return topTextFieldText;
-    }
-    void setTopTextFieldText(String updatedText) {
-        topTextFieldText = updatedText;
     }
 
     String getBottomTextFieldText() {
         return bottomTextFieldText;
     }
-    void setBottomTextFieldText(String updatedText) {
-        bottomTextFieldText = updatedText;
-    }
 
-    ArrayList getSideListViewTexts() {
+    ArrayList<String> getSideListViewTexts() {
         return sideListViewTexts;
     }
-    void addToSideListViewTexts(String updatedText) {
-        sideListViewTexts.add(updatedText);
-    }
 
-    void addAllData() {
-        // Simpler
+    void setAllData(String updatedTopLabelText, String updatedTopTextFieldText,
+                    String updatedBottomTextFieldText, List<Label> updatedSideListView) {
+        // Update the model with all text currently seen in View
+        topLabelText = updatedTopLabelText;
+        topTextFieldText = updatedTopTextFieldText;
+        bottomTextFieldText = updatedBottomTextFieldText;
+
+        int length = updatedSideListView.size();
+        sideListViewTexts.clear();
+        for (int i = 0; i < length; i++) {
+            sideListViewTexts.add(updatedSideListView.get(i).getText());
+        }
     }
 }
