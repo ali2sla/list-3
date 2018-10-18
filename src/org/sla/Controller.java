@@ -4,11 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.File;
 import java.util.ArrayList;
 
 // the Controller keeps track of the View's GUI controls AND has code to handle their events
@@ -26,20 +21,8 @@ public class Controller {
     public void initialize() {
         System.out.println("Controller initialize");
 
-        // Try restoring saved text from file
-        try {
-            File savedText = new File(getClass().getResource("SavedText.txt").toURI());
-            if (savedText.exists()) {
-                BufferedReader input = new BufferedReader(new FileReader(savedText));
-                model = new Model(input);
-                input.close();
-            } else {
-                model = new Model();
-            }
-        } catch (Exception e) {
-            System.out.println("Controller initialize EXCEPTION");
-            model = new Model();
-        }
+        // Create the model for the saved data
+        model = new Model();
 
         // Now that model has been initialized from a file, update View with saved values from Model
         topLabel.setText(model.getTopLabelText());
@@ -64,17 +47,7 @@ public class Controller {
             model.addToSideListViewTexts(sideListView.getItems().get(i).getText());
         }
 
-        // Write the final model to a saved file
-        try {
-            File savedText = new File(getClass().getResource("SavedText.txt").toURI());
-            BufferedWriter writer = new BufferedWriter(new FileWriter(savedText));
-            if (writer != null) {
-                model.save(writer);
-                writer.close();
-            }
-        } catch (Exception e) {
-            System.out.println("Controller save EXCEPTION");
-        }
+        model.save();
     }
 
     // these methods are event handler methods that are called when each GUI control is used

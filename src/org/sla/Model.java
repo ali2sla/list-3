@@ -1,7 +1,6 @@
 package org.sla;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 // the Model contains all of the View's text so that it can be read and written to a file
@@ -19,57 +18,67 @@ public class Model {
         topTextFieldText = "";
         bottomTextFieldText = "";
         sideListViewTexts = new ArrayList();
-    }
 
-    // Create a model that is restored from saved data
-    Model(BufferedReader input) {
-        System.out.println("Model(BufferedReader input)");
+        // Try restoring saved text from file
         try {
-            topLabelText = input.readLine();
-            topTextFieldText = input.readLine();
-            bottomTextFieldText = input.readLine();
-            sideListViewTexts = new ArrayList();
-            String newSideListText = input.readLine();
-            while (newSideListText != null) {
-                sideListViewTexts.add(newSideListText);
-                newSideListText = input.readLine();
+            File savedText = new File(getClass().getResource("SavedText.txt").toURI());
+            if (savedText.exists()) {
+                BufferedReader input = new BufferedReader(new FileReader(savedText));
+                topLabelText = input.readLine();
+                topTextFieldText = input.readLine();
+                bottomTextFieldText = input.readLine();
+                sideListViewTexts = new ArrayList();
+                String newSideListText = input.readLine();
+                while (newSideListText != null) {
+                    sideListViewTexts.add(newSideListText);
+                    newSideListText = input.readLine();
+                }
+                input.close();
             }
         } catch (Exception e) {
-            System.out.println("Model reading failed!!!");
+            System.out.println("Controller initialize EXCEPTION");
         }
     }
 
     // write the model to a file
-    void save(BufferedWriter output) {
+    void save() {
         try {
-            if (topLabelText != null) {
-                output.write(topLabelText);
-            } else {
-                output.write("");
-            }
-            output.newLine();
-            if (topTextFieldText != null) {
-                output.write(topTextFieldText);
-            } else {
-                output.write("");
-            }
-            output.newLine();
-            if (bottomTextFieldText != null) {
-                output.write(bottomTextFieldText);
-            } else {
-                output.write("");
-            }
-            output.newLine();
-            int length = sideListViewTexts.size();
-            if (length > 0) {
-                for (int i = 0; i < length; i++) {
-                    output.write(sideListViewTexts.get(i));
-                    output.newLine();
+
+            // Write the final model to a saved file
+            File savedText = new File(getClass().getResource("SavedText.txt").toURI());
+            BufferedWriter writer = new BufferedWriter(new FileWriter(savedText));
+            if (writer != null) {
+                if (topLabelText != null) {
+                    writer.write(topLabelText);
+                } else {
+                    writer.write("");
                 }
-            } else {
-                output.write("");
-                output.newLine();
+                writer.newLine();
+                if (topTextFieldText != null) {
+                    writer.write(topTextFieldText);
+                } else {
+                    writer.write("");
+                }
+                writer.newLine();
+                if (bottomTextFieldText != null) {
+                    writer.write(bottomTextFieldText);
+                } else {
+                    writer.write("");
+                }
+                writer.newLine();
+                int length = sideListViewTexts.size();
+                if (length > 0) {
+                    for (int i = 0; i < length; i++) {
+                        writer.write(sideListViewTexts.get(i));
+                        writer.newLine();
+                    }
+                } else {
+                    writer.write("");
+                    writer.newLine();
+                }
             }
+            writer.close();
+
         } catch (Exception e) {
 
             System.out.println("Model writing failed!!!");
