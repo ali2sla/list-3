@@ -117,6 +117,6 @@ public class Model {
     }
 
     void addAllData() {
-
+        // Simpler
     }
 }
