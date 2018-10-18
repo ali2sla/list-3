@@ -115,4 +115,8 @@ public class Model {
     void addToSideListViewTexts(String updatedText) {
         sideListViewTexts.add(updatedText);
     }
+
+    void addAllData() {
+
+    }
 }
